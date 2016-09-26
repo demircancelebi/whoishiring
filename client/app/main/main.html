@@ -1,0 +1,53 @@
+<navbar></navbar>
+
+<div class="container">
+  <filter></filter>
+  <div class="row mt20">
+    <div  ng-repeat="j in data.jobs">
+      <div class="col-sm-4 pr0">
+        <job data="j"></job>
+      </div>
+      <div class="clearfix" ng-show="$index % 3 === 2"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit-listing-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="form" name="editListingForm" ng-submit="cancelOrder(editListingForm)" novalidate>
+          <md-input-container class="mb0 md-block" flex-gt-xs>
+            <label>Company</label>
+            <input ng-model="toEdit.company" type="text">
+          </md-input-container>
+          <h5 class="mt0">Stack</h5>
+          <md-input-container class="mb0" flex="20" flex-gt-xs ng-repeat="s in toEdit.stack">
+            <label>#{{ $index + 1 }}</label>
+            <input ng-model="s" type="text">
+          </md-input-container>
+          <br>
+          <h5 class="mt0">Field & Type</h5>
+          <md-input-container class="mb0" flex="20" flex-gt-xs ng-repeat="f in toEdit.field">
+            <label>F #{{ $index + 1 }}</label>
+            <input ng-model="f" type="text">
+          </md-input-container>
+          <md-input-container class="mb0" flex="20" flex-gt-xs ng-repeat="t in toEdit.type">
+            <label>T #{{ $index + 1 }}</label>
+            <input ng-model="t" type="text">
+          </md-input-container>
+          <h5 class="mt0">Links</h5>
+          <md-input-container class="md-block mb0" flex-gt-xs ng-repeat="l in toEdit.links">
+            <label>#{{ $index + 1 }}</label>
+            <input ng-model="l" type="text">
+          </md-input-container>
+
+          <button class="btn btn-success" type="submit"><span translate>Edit</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer></footer>

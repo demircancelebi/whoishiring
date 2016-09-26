@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-sm-12">
+    <md-input-container class="m0 mr20">
+      <h6 class="mt0">Date</h6>
+      <md-select ng-model="data.onstory">
+        <md-option ng-repeat="onstory in ctrl.dates" ng-value="onstory.id">
+          {{ onstory.name }}
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container class="m0 mr15">
+      <h6 class="mt10 mb15">Type</h6>
+      <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.types" ng-model="data.type[typeSlug]" ng-value="typeSlug" class="pull-left mr20">{{ typeName }}</md-checkbox>
+    </md-input-container>
+    <md-input-container class="m0 mr15">
+    <h6 class="mt10 mb15">Where</h6>
+      <md-checkbox ng-repeat="(locSlug, locName) in ctrl.locs" ng-model="data.where[locSlug]" ng-value="locSlug" class="pull-left mr20">{{ locName }}</md-checkbox>
+    </md-input-container>
+    <md-input-container class="m0">
+      <h6 class="mt0">Position</h6>
+      <md-select ng-model="data.field" multiple>
+        <md-option ng-repeat="(fieldSlug, fieldName) in ctrl.field" ng-value="fieldSlug">{{ fieldName }}</md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+  <div class="col-sm-12">
+    <md-input-container class="m0 mr20">
+      <h6 class="mt0">Stack</h6>
+      <md-select ng-model="data.stack" multiple>
+        <md-option ng-repeat="(thingSlug, thingName) in ctrl.stack" ng-value="thingSlug">{{ thingName }}</md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+</div>

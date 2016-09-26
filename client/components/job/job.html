@@ -1,0 +1,22 @@
+<md-card class="mb20">
+  <md-card-content>
+    <p class="pull-right lead m0" style="font-size: 14px;"><span ng-repeat="w in data.where">{{ ctrl.locs[w] }}<span ng-if="!$last">, </span></span></p>
+    <h4 class="mt0" ng-bind-html="data.company"></h4>
+    <h6 class="mb0"><span ng-repeat="f in data.field">{{ ctrl.field[f] }}<span ng-if="!$last">,&nbsp;</span></span></h6>
+    <h6 class="mb0"><span ng-repeat="t in data.type">{{ ctrl.types[t] }}<span ng-if="!$last">&nbsp;</span></span></h6>
+    <div style="position: relative;">
+      <hr>
+      <h6 style="position: absolute; top: -27px; background: #fff; padding: 10px; color: #aaa; left: 35%;">Stack &amp; Links</h6>
+    </div>
+    <p class="lead" style="font-size: 14px;">
+    <div class="pull-right"><span ng-repeat="l in data.links"> <a href="{{ l }}">{{ $index + 1 }}</a><span ng-if="!$last">, </span></span></div>
+    <span ng-repeat="s in data.stack">{{ ctrl.stack[s] }}<span ng-if="!$last">, </span></span>&nbsp;
+    </p>
+    <div class="row" ng-if="isAdmin">
+      <md-card-actions layout="row" layout-align="start center" style="background: #fafafa; margin: 0 0 -15px;">
+        <md-button style="margin-right: 10px;" ng-click="showEditModal(data)">Edit</md-button>
+        <md-switch ng-change="onChange()" class="mt5 mb0" ng-model="data.active" aria-label="Active">Active: {{ data.active }}</md-switch>
+      </md-card-actions>
+    </div>
+  </md-card-content>
+</md-card>
