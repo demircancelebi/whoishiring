@@ -87,6 +87,128 @@ const mapWords = (wordsArray) => {
 }
 
 const criteria = {
+  locs: {
+    sf: [[...mapWords(['san-francisco']), 'SF'], mapWords(['nsf', 'ssf', 'isf', 'esf'])],
+    dc: [[...mapWords(['washington-dc']), 'Washington, DC']],
+    mountainView: [mapWords(['mountain-view'])],
+    daniaBeach: [mapWords(['dania-beach'])],
+    ny: [mapWords(['new-york', 'ny', 'nyc', 'manhattan']), mapWords(['any', 'nyse', 'ony', 'eny', 'iny', 'uny'])],
+    bayArea: [mapWords(['bay-area'])],
+    mendrisio: [mapWords(['mendrisio'])],
+    mcLean: [mapWords(['mc-lean'])],
+    austin: [mapWords(['austin'])],
+    atlanta: [mapWords(['atlanta'])],
+    menloPark: [mapWords(['menlo-park'])],
+    eindhoven: [mapWords(['eindhoven'])],
+    hasselt: [mapWords(['hasselt'])],
+    liege: [mapWords(['liege'])],
+    london: [mapWords(['london'])],
+    seattle: [mapWords(['seattle'])],
+    costaMesa: [mapWords(['costa-mesa'])],
+    berlin: [mapWords(['berlin'])],
+    newZealand: [mapWords(['new-zealand'])],
+    sanMateo: [mapWords(['san-mateo'])],
+    denver: [mapWords(['denver'])],
+    boulder: [mapWords(['boulder'])],
+    dallas: [mapWords(['dallas'])],
+    riga: [mapWords(['riga'])],
+    melbourne: [mapWords(['melbourne'])],
+    australia: [mapWords(['australia'])],
+    paloAlto: [mapWords(['palo-alto'])],
+    toronto: [mapWords(['toronto'])],
+    edinburgh: [mapWords(['edinburgh'])],
+    boston: [mapWords(['boston'])],
+    reston: [mapWords(['reston'])],
+    gurgaon: [mapWords(['gurgaon'])],
+    bangalore: [mapWords(['bangalore'])],
+    plano: [mapWords(['plano'])],
+    louisville: [mapWords(['louisville'])],
+    berkeley: [mapWords(['berkeley'])],
+    redwoodCity: [mapWords(['redwood-city'])],
+    ottawa: [mapWords(['ottawa'])],
+    montreal: [mapWords(['montreal'])],
+    waterloo: [mapWords(['waterloo'])],
+    sanJose: [mapWords(['san-jose'])],
+    remagen: [mapWords(['remagen'])],
+    newJersey: [mapWords(['new-jersey'])],
+    amsterdam: [mapWords(['amsterdam'])],
+    cupertino: [mapWords(['cupertino'])],
+    chicago: [mapWords(['chicago'])],
+    dublin: [mapWords(['dublin'])],
+    pasadena: [mapWords(['pasadena'])],
+    losAngeles: [mapWords(['los-angeles'])],
+    irving: [mapWords(['irving'])],
+    hongKong: [mapWords(['hong-kong'])],
+    denver: [mapWords(['denver'])],
+    cambridge: [mapWords(['cambridge'])],
+    singapore: [mapWords(['singapore'])],
+    barcelona: [mapWords(['barcelona'])],
+    glasgow: [mapWords(['glasgow'])],
+    budapest: [mapWords(['budapest'])],
+    sofia: [mapWords(['sofia'])],
+    tokyo: [mapWords(['tokyo'])],
+    baltimore: [mapWords(['baltimore'])],
+    stockholm: [mapWords(['stockholm'])],
+    sweden: [mapWords(['sweden'])],
+    colorado: [mapWords(['colorado'])],
+    paris: [mapWords(['paris'])],
+    charleston: [mapWords(['charleston'])],
+    sanDiego: [mapWords(['san-diego'])],
+    copenhagen: [mapWords(['copenhagen'])],
+    israel: [mapWords(['israel'])],
+    kitchener: [mapWords(['kitchener'])],
+    canada: [mapWords(['canada'])],
+    portland: [mapWords(['portland'])],
+    oregon: [mapWords(['oregon'])],
+    arlington: [mapWords(['arlington'])],
+    oakland: [mapWords(['oakland'])],
+    pittsburgh: [mapWords(['pittsburgh'])],
+    heidelberg: [mapWords(['heidelberg'])],
+    kelowna: [mapWords(['kelowna'])],
+    boise: [mapWords(['boise'])],
+    charlottesville: [mapWords(['charlottesville'])],
+    durham: [mapWords(['durham'])],
+    miami: [mapWords(['miami'])],
+    lausanne: [mapWords(['lausanne'])],
+    shanghai: [mapWords(['shanghai'])],
+    orangeCounty: [mapWords(['orange-county'])],
+    ontario: [mapWords(['ontario'])],
+    newcastle: [mapWords(['newcastle'])],
+    brixton: [mapWords(['brixton'])],
+    champaign: [mapWords(['champaign'])],
+    sydney: [mapWords(['sydney'])],
+    manchester: [mapWords(['manchester'])],
+    cleveland: [mapWords(['cleveland'])],
+    charlotte: [mapWords(['charlotte'])],
+    goldCoast: [mapWords(['gold-coast'])],
+    medford: [mapWords(['medford'])],
+    portsmouth: [mapWords(['portsmouth'])],
+    medford: [mapWords(['medford'])],
+    istanbul: [mapWords(['istanbul'])],
+    ashford: [mapWords(['ashford'])],
+    zurich: [mapWords(['zurich'])],
+    florence: [mapWords(['florence'])],
+    italy: [mapWords(['italy'])],
+    spain: [mapWords(['spain'])],
+    germany: [mapWords(['germany'])],
+    cologne: [mapWords(['cologne'])],
+    india: [mapWords(['india'])],
+    sunnyvale: [mapWords(['sunnyvale'])],
+    alisoViejo: [mapWords(['aliso-viejo'])],
+    regensburg: [mapWords(['regensburg'])],
+    belgrade: [mapWords(['belgrade'])],
+    serbia: [mapWords(['serbia'])],
+    raleigh: [mapWords(['raleigh'])],
+    annArbor: [mapWords(['ann-arbor'])],
+    rioDeJaneiro: [mapWords(['rio-de-janeiro'])],
+    nuremberg: [mapWords(['nuremberg'])],
+    prague: [mapWords(['prague'])],
+    philadelphia: [mapWords(['philadelphia'])],
+    detroit: [mapWords(['detroit'])],
+    wiesbaden: [mapWords(['wiesbaden'])],
+    melbourne: [mapWords(['melbourne'])],
+    brecksville: [mapWords(['brecksville'])]
+  },
   type: {
     fulltime: [mapWords(['full-time'])],
     parttime: [mapWords(['part-time'])],
@@ -149,21 +271,22 @@ const parseJob = ($html) => {
   const $ = cheerio.load($html.html());
 
   const html = $html.find('.comment').html();
-  const links = getUrls(html);
+  // const links = getUrls(html);
 
   // remove duplicate and bad formatted links
-  const linksLen = links.length;
-  for (var i = linksLen - 1; i >= 0; i--) {
-    if (links[i].indexOf('%3C') > -1 || links[i].indexOf('</a>') > -1) {
-      links.splice(i, 1);
-    }
-  }
+  // const linksLen = links.length;
+  // for (var i = linksLen - 1; i >= 0; i--) {
+  //   if (links[i].indexOf('%3C') > -1 || links[i].indexOf('</a>') > -1) {
+  //     links.splice(i, 1);
+  //   }
+  // }
 
   // remove reply link
-  links.pop();
+  // links.pop();
 
   // handle attr
   const attr = {
+    locs: [],
     type: [],
     field: [],
     where: [],
@@ -207,7 +330,8 @@ const parseJob = ($html) => {
   const lldash = html.indexOf('&#x2014;');
   const apos = html.indexOf('&#x2019;');
   const star = html.indexOf('*');
-  const arr = [pipe, dash, dots, link1, link2, is, has, dot, ldash, lldash, apos, star];
+  const circle = html.indexOf('&#x2022;');
+  const arr = [pipe, dash, dots, link1, link2, is, has, dot, ldash, lldash, apos, star, circle];
 
   const smallest = Math.min.apply(null, arr.filter(n => n !== -1));
   let company = html.slice(37, smallest);
@@ -218,55 +342,69 @@ const parseJob = ($html) => {
     }
   }
 
+  company = company.trim();
+  if (company.indexOf('Open Whisper Systems') > -1) {
+    console.log(company);
+  }
+
   return {
     company,
-    // locs,
+    locs: _.union(attr.locs),
     type: _.union(attr.type),
     field: _.union(attr.field),
     stack: _.union(attr.stack),
     where: _.union(attr.where),
-    links,
+    // links,
     active: true,
     by: $($html.find('.comhead a.hnuser')[0]).text(),
     hn_id: $($html.find('.age a')[0]).attr('href').split('?id=')[1]
   }
 };
 
+const fetch = (line, cb) => {
+  const lineArr = line.split(' - ');
+  const date = lineArr[0];
+  const id = lineArr[1];
+  const url = `https://news.ycombinator.com/item?id=${id}`;
+  const d = date.replace(' ', '');
+
+  rp(url)
+    .then(function (html) {
+      fs.writeFileSync(path.resolve(__dirname, 'stories', `${d}.html`), html);
+    });
+};
+
+const traverse = () => {
+  const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
+
+  files.forEach(file => {
+    const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
+    const $ = cheerio.load(html);
+
+    const comments = $('body').find('.athing.comtr');
+    const jobs = [];
+    let text = '';
+    comments.each((i, c) => {
+      const $c = $(c);
+      const isJob = !parseInt($($c.find('.ind img')[0]).attr('width'), 10);
+      if (isJob) {
+        jobs.push(parseJob($c));
+      }
+    });
+
+    const d = file.split('.')[0];
+    const jobsWithDate = jobs.map((j) => {
+      j.onstory = d;
+      return j;
+    });
+
+    Job.create(jobs);
+  });
+};
+
 module.exports = () => {
-  console.log(ids);
-  for (let i = 0; i < ids.length; i += 1) {
-    const line = ids[i].split(' - ');
-    const date = line[0];
-    const id = line[1];
-    const url = `https://news.ycombinator.com/item?id=${id}`;
-    const d = date.replace(' ', '');
-
-    rp(url)
-      .then(function (html) {
-        fs.writeFile(path.resolve(__dirname, 'stories', `${d}.html`), html);
-        const $ = cheerio.load(html);
-
-        const comments = $('body').find('.athing.comtr');
-        const jobs = [];
-        let text = '';
-        comments.each((i, c) => {
-          const $c = $(c);
-          const isJob = !parseInt($($c.find('.ind img')[0]).attr('width'), 10);
-          if (isJob) {
-            jobs.push(parseJob($c));
-          }
-        });
-
-        const jobsWithDate = jobs.map((j) => {
-          j.onstory = d;
-          return j;
-        });
-
-        Job.create(jobs);
-      })
-      .catch(function (err) {
-        console.log('Crawl Error:');
-        console.log(err.message);
-      });
-  }
-}
+  // for (let i = 0; i < ids.length; i += 1) {
+  //   fetch(ids[i]);
+  // };
+  traverse();
+};

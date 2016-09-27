@@ -55,6 +55,7 @@ angular.module('newHnHiringApp')
       ],
       types: $rootScope.types,
       locs: $rootScope.locs,
+      wheres: $rootScope.wheres,
       field: $rootScope.field,
       stack: $rootScope.stack
     };
