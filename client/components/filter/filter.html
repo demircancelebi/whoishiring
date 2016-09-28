@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <md-input-container class="m0 mr20">
       <h6 class="mt0">Date</h6>
-      <md-select ng-model="data.onstory">
+      <md-select ng-model="data.filter.onstory" ng-change="search()">
         <md-option ng-repeat="onstory in ctrl.dates" ng-value="onstory.id">
           {{ onstory.name }}
         </md-option>
@@ -10,15 +10,15 @@
     </md-input-container>
     <md-input-container class="m0 mr15">
       <h6 class="mt10 mb15">Type</h6>
-      <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.types" ng-model="data.type[typeSlug]" ng-value="typeSlug" class="pull-left mr20">{{ typeName }}</md-checkbox>
+      <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.types" ng-model="data.filter.type[typeSlug]" ng-value="typeSlug" class="pull-left mr20" ng-change="search()">{{ typeName }}</md-checkbox>
     </md-input-container>
     <md-input-container class="m0 mr15">
     <h6 class="mt10 mb15">Where</h6>
-      <md-checkbox ng-repeat="(whereSlug, whereName) in ctrl.wheres" ng-model="data.where[whereSlug]" ng-value="whereSlug" class="pull-left mr20">{{ whereName }}</md-checkbox>
+      <md-checkbox ng-repeat="(whereSlug, whereName) in ctrl.wheres" ng-model="data.filter.where[whereSlug]" ng-value="whereSlug" class="pull-left mr20" ng-change="search()">{{ whereName }}</md-checkbox>
     </md-input-container>
     <md-input-container class="m0">
       <h6 class="mt0">Position</h6>
-      <md-select ng-model="data.field" multiple>
+      <md-select ng-model="data.filter.field" ng-change="search()" multiple>
         <md-option ng-repeat="(fieldSlug, fieldName) in ctrl.field" ng-value="fieldSlug">{{ fieldName }}</md-option>
       </md-select>
     </md-input-container>
@@ -26,13 +26,13 @@
   <div class="col-sm-12">
     <md-input-container class="m0 mr20">
       <h6 class="mt0">Stack</h6>
-      <md-select ng-model="data.stack" multiple>
+      <md-select ng-model="data.filter.stack" ng-change="search()" multiple>
         <md-option ng-repeat="(thingSlug, thingName) in ctrl.stack" ng-value="thingSlug">{{ thingName }}</md-option>
       </md-select>
     </md-input-container>
     <md-input-container class="m0 mr20">
       <h6 class="mt0">Location</h6>
-      <md-select ng-model="data.locs" multiple>
+      <md-select ng-model="data.filter.locs" ng-change="search()" multiple>
         <md-option ng-repeat="(locSlug, locName) in ctrl.locs" ng-value="locSlug">
           {{ locName }}
         </md-option>

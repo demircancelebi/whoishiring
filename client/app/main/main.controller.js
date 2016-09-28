@@ -3,7 +3,6 @@
 angular.module('newHnHiringApp')
   .controller('MainCtrl', function ($scope, $rootScope, data) {
     $scope.data = {
-      filter: {},
       jobs: data.items
     };
 

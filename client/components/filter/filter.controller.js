@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newHnHiringApp')
-  .controller('FilterCtrl', function ($scope, $rootScope) {
+  .controller('FilterCtrl', function ($scope, $rootScope, $route, $location) {
     $scope.ctrl = {
       dates: [
         {
@@ -62,9 +62,57 @@ angular.module('newHnHiringApp')
 
     if (!$scope.data) {
       $scope.data = {
-        onstory: $scope.ctrl.dates[0].id
-      }
+        filter: {
+          onstory: $scope.ctrl.dates[0].id
+        }
+      };
     } else {
-      $scope.data.onstory = $scope.ctrl.dates[0].id;
+      if (!$scope.data.filter) {
+        $scope.data.filter = {
+          onstory: $scope.ctrl.dates[0].id
+        };
+      } else {
+        $scope.data.filter.onstory = $scope.ctrl.dates[0].id;
+      }
     }
+
+    $scope.getParamsFromFilters = () => {
+      let params = {};
+
+      Object.keys($scope.data.filter).forEach((k, i) => {
+        if($scope.data.filter[k].constructor === String) {
+          params[k] = $scope.data.filter[k];
+        } else if ($scope.data.filter[k].constructor === Array) {
+          if (!params[k]) {
+            params[k] = [];
+          }
+
+          $scope.data.filter[k].forEach((v) => {
+            params[k].push(v);
+          });
+        } else if ($scope.data.filter[k].constructor === Object) {
+          if (!params[k]) {
+            params[k] = [];
+          }
+          Object.keys($scope.data.filter[k]).forEach((key, index) => {
+            if ($scope.data.filter[k][key]) {
+              params[k].push(key);
+            }
+          })
+        }
+      });
+
+      return params;
+    };
+
+    $scope.mapParamsToFilter = () => {
+      console.log('setting the UI...');
+    };
+
+    $scope.search = () => {
+      const params = $scope.getParamsFromFilters();
+      $route.updateParams(params);
+    };
+
+    $scope.mapParamsToFilter();
   });
