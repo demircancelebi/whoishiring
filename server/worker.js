@@ -227,7 +227,7 @@ const criteria = {
     android: [mapWords(['android-engineer', 'android-develop'])],
     data: [mapWords(['machine-learning', 'deep-learning', 'data-architect', 'data-scient'])],
     devops: [mapWords(['dev-ops'])],
-    pm: [mapWords(['product-manager'])],
+    pm: [mapWords(['product-manager', 'project-manager', 'scrum-master'])],
     sre: [mapWords(['reliability', 'sre']), ['ssre']],
     security: [mapWords(['security-engineer'])]
   },
@@ -271,18 +271,15 @@ const parseJob = ($html) => {
   const $ = cheerio.load($html.html());
 
   const html = $html.find('.comment').html();
-  // const links = getUrls(html);
+  const links = getUrls(html);
 
   // remove duplicate and bad formatted links
-  // const linksLen = links.length;
-  // for (var i = linksLen - 1; i >= 0; i--) {
-  //   if (links[i].indexOf('%3C') > -1 || links[i].indexOf('</a>') > -1) {
-  //     links.splice(i, 1);
-  //   }
-  // }
-
-  // remove reply link
-  // links.pop();
+  const linksLen = links.length;
+  for (var i = linksLen - 1; i >= 0; i--) {
+    if (links[i].indexOf('%3C') > -1 || links[i].indexOf('</a>') > -1) {
+      links.splice(i, 1);
+    }
+  }
 
   // handle attr
   const attr = {
@@ -321,6 +318,7 @@ const parseJob = ($html) => {
   const pipe = html.indexOf('|');
   const dash = html.indexOf('-');
   const dots = html.indexOf(':');
+  const dotComma = html.indexOf(';');
   const link1 = html.indexOf('<a');
   const link2 = html.indexOf('(<a');
   const is = html.indexOf('is ');
@@ -331,7 +329,14 @@ const parseJob = ($html) => {
   const apos = html.indexOf('&#x2019;');
   const star = html.indexOf('*');
   const circle = html.indexOf('&#x2022;');
-  const arr = [pipe, dash, dots, link1, link2, is, has, dot, ldash, lldash, apos, star, circle];
+  const slash = html.indexOf('/');
+  const we1 = html.indexOf('We&apos');
+  const we2 = html.indexOf('we&apos');
+  const paren = html.indexOf('(');
+  const its = html.indexOf('It&apos');
+
+  const arr = [pipe, dash, dots, dotComma, link1, link2, is, has, dot, ldash,
+              lldash, apos, star, circle, slash, we1, we2, paren, its];
 
   const smallest = Math.min.apply(null, arr.filter(n => n !== -1));
   let company = html.slice(37, smallest);
@@ -342,20 +347,21 @@ const parseJob = ($html) => {
     }
   }
 
+  company = company.replace(/<(?:.|\n)*?>/gm, '');
   company = company.trim();
-  if (company.indexOf('Open Whisper Systems') > -1) {
-    console.log(company);
-  }
+
+  const active = !(html.indexOf('[flagged]') > -1)
 
   return {
-    company,
     locs: _.union(attr.locs),
     type: _.union(attr.type),
     field: _.union(attr.field),
     stack: _.union(attr.stack),
     where: _.union(attr.where),
-    // links,
-    active: true,
+    html,
+    links,
+    active,
+    company,
     by: $($html.find('.comhead a.hnuser')[0]).text(),
     hn_id: $($html.find('.age a')[0]).attr('href').split('?id=')[1]
   }
@@ -376,29 +382,31 @@ const fetch = (line, cb) => {
 
 const traverse = () => {
   const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
+  console.log(`File count: ${files.length}`);
+  files.forEach((file, i) => {
+    if (i === 0) {
+      const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
+      const $ = cheerio.load(html);
 
-  files.forEach(file => {
-    const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
-    const $ = cheerio.load(html);
+      const comments = $('body').find('.athing.comtr');
+      const jobs = [];
+      let text = '';
+      comments.each((i, c) => {
+        const $c = $(c);
+        const isJob = !parseInt($($c.find('.ind img')[0]).attr('width'), 10);
+        if (isJob) {
+          jobs.push(parseJob($c));
+        }
+      });
 
-    const comments = $('body').find('.athing.comtr');
-    const jobs = [];
-    let text = '';
-    comments.each((i, c) => {
-      const $c = $(c);
-      const isJob = !parseInt($($c.find('.ind img')[0]).attr('width'), 10);
-      if (isJob) {
-        jobs.push(parseJob($c));
-      }
-    });
+      const d = file.split('.')[0];
+      const jobsWithDate = jobs.map((j) => {
+        j.onstory = d;
+        return j;
+      });
 
-    const d = file.split('.')[0];
-    const jobsWithDate = jobs.map((j) => {
-      j.onstory = d;
-      return j;
-    });
-
-    Job.create(jobs);
+      Job.create(jobs);
+    }
   });
 };
 

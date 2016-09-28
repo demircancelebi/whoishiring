@@ -11,4 +11,19 @@ angular.module('newHnHiringApp')
       $scope.toEdit = data;
       $('#edit-listing-modal').modal();
     });
+
+    $rootScope.$on('show more', (e, data, index) => {
+      if ($scope.moreData === null) {
+        $scope.moreData = data;
+      } else {
+        if ($scope.lastIndex === index) {
+          $scope.moreData = null;
+        } else {
+          $scope.moreData = data;
+        }
+      }
+
+      $scope.lastIndex = index;
+      $scope.addAfter = (Math.floor(index/3)+1)*3;
+    });
   });

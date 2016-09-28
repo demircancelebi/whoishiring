@@ -15,6 +15,7 @@ const Job = new Schema({
   by: String,
   active: Boolean,
   onstory: String,
+  html: String,
   hn_id: { type: String, required: true, unique: true },
   created_at: Date,
   updated_at: Date

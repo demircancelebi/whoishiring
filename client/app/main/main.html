@@ -3,11 +3,18 @@
 <div class="container">
   <filter></filter>
   <div class="row mt20">
-    <div  ng-repeat="j in data.jobs">
+    <div ng-repeat="j in data.jobs">
       <div class="col-sm-4 pr0">
-        <job data="j"></job>
+        <job data="j" nth="$index"></job>
       </div>
-      <div class="clearfix" ng-show="$index % 3 === 2"></div>
+      <div class="clearfix" ng-if="$index % 3 === 2"></div>
+      <div class="col-sm-12" ng-if="moreData && addAfter === $index + 1">
+        <md-card class="mb20">
+          <md-card-content>
+            <div ng-bind-html="moreData.html"></div>
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
   </div>
 </div>

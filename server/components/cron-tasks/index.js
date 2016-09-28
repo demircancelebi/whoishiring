@@ -10,10 +10,10 @@ const cronIntervals = {
 };
 
 module.exports.run = () => {
-  ns.scheduleJob(cronIntervals['10m'], () => {
-    console.log('---cron---');
-    console.log(new Date());
-    worker();
-  });
+  // ns.scheduleJob(cronIntervals['10m'], () => {
+  //   console.log('---cron---');
+  //   console.log(new Date());
+  //   worker();
+  // });
   worker();
 };

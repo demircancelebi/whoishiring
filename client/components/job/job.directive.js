@@ -6,7 +6,8 @@ angular.module('newHnHiringApp')
       templateUrl: 'components/job/job.html',
       restrict: 'E',
       scope: {
-        data: '='
+        data: '=',
+        nth: '='
       },
       controller: 'JobCtrl',
       link: function (scope, element) {
