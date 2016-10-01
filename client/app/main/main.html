@@ -20,7 +20,7 @@
       )">
         <md-card class="mb20">
           <md-card-content>
-            <p class="pull-right">{{ moreData.onstory }}</p>
+            <p class="pull-right">{{ moreData.onstory }} <a href="https://news.ycombinator.com/item?id={{ moreData.hn_id }}" target="_blank"><span class="fa fa-external-link"></span></a></p>
             <div ng-bind-html="moreData.html"></div>
           </md-card-content>
         </md-card>
