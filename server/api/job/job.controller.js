@@ -16,7 +16,7 @@ import * as ut from '../../components/utils';
 
 // Gets a list of Jobs
 export function index(req, res) {
-  const q = ut.queryBuilder({ req, defaultCount: 75, model: 'job' });
+  const q = ut.queryBuilder({ req, defaultCount: 45, model: 'job' });
   const sort = q.sort ? q.sort : '-created_at';
   if (!q.query.$and) {
     q.query.$and = [];
