@@ -9,7 +9,15 @@
         <job data="j" nth="$index"></job>
       </div>
       <div class="clearfix" ng-if="$index % 3 === 2"></div>
-      <div class="col-sm-12" ng-if="moreData && addAfter === $index + 1">
+      <div class="col-sm-12" ng-if="moreData &&
+      (
+        (addAfter === $index + 1) ||
+        (
+          (data.jobs.length % 3 === 1) && (data.jobs.length - lastIndex <= 1 && $index === addAfter - 3)
+        ) || (
+          (data.jobs.length % 3 === 2) && (data.jobs.length - lastIndex <= 2 && $index === addAfter - 2)
+        )
+      )">
         <md-card class="mb20">
           <md-card-content>
             <p class="pull-right">{{ moreData.onstory }}</p>
