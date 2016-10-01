@@ -32,7 +32,7 @@ export function index(req, res) {
     .then(jobs => {
       Job.countAsync(q.query)
         .then(found =>
-          res.status(200).send({ count: q.count, found, page: q.page, items: jobs })
+          res.status(200).send({ count: q.count, found, page: parseInt(q.page, 10), items: jobs })
         );
     })
     .catch(ut.handleError(req, res));

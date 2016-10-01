@@ -1,16 +1,28 @@
 'use strict';
 
 angular.module('newHnHiringApp')
-  .controller('MainCtrl', function ($scope, $rootScope, $http, data) {
+  .controller('MainCtrl', function ($scope, $rootScope, $location, $route, $http, data) {
     $scope.data = {
       jobs: data.items,
-      found: data.found
+      found: data.found,
+      count: data.count,
+      filter: {
+        page: data.page
+      }
     };
 
     $rootScope.$on('make new search', (e, urlParams) => {
       $http.get(`/api/jobs${urlParams}`).success((d) => {
         $scope.data.jobs = d.items;
         $scope.data.found = d.found;
+        $scope.data.count = d.count;
+        if (!$scope.data.filter) {
+          $scope.data.filter = {
+            page: d.page
+          };
+        } else {
+          $scope.data.filter.page = d.page;
+        }
       });
     });
 
@@ -36,5 +48,10 @@ angular.module('newHnHiringApp')
 
     $scope.updateJob = () => {
       $http.put(`/api/jobs/${$scope.toEdit._id}`, { company: $scope.toEdit.company });
+    };
+
+    $scope.changePage = (page) => {
+      $('html, body').animate({ scrollTop: 0 }, 300);
+      $route.updateParams(page);
     };
   });

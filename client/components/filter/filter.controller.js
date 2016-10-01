@@ -79,7 +79,7 @@ angular.module('newHnHiringApp')
           })
         }
       });
-
+      params.page = 1;
       return params;
     };
 
@@ -88,7 +88,7 @@ angular.module('newHnHiringApp')
       const filter = {};
 
       Object.keys(p).forEach((key, index) => {
-        if (key === 'type' || key === 'where') {
+        if (key === 'type' || key === 'where' || key === 'visa' || key === 'intern') {
           $scope.data.filter[key] = {};
           if (p[key].constructor === String) {
             p[key] = [p[key]];
