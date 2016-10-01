@@ -209,9 +209,13 @@ const criteria = {
   },
   type: {
     fulltime: [mapWords(['full-time'])],
-    parttime: [mapWords(['part-time'])],
-    visa: [mapWords(['visa'])],
-    intern: [mapWords(['intern']), mapWords(['internal', 'internet'])]
+    parttime: [mapWords(['part-time'])]
+  },
+  visa: {
+    yes: [mapWords(['visa'])]
+  },
+  intern: {
+    yes: [mapWords(['intern']), mapWords(['internal', 'internet'])]
   },
   where: {
     onsite: [[...mapWords(['on-site', 'or-remote']), 'or REMOTE', 'or Remote', 'or remote']],
@@ -285,7 +289,9 @@ const parseJob = ($html) => {
     type: [],
     field: [],
     where: [],
-    stack: []
+    stack: [],
+    visa: [],
+    intern: []
   };
 
   for (const criterion in criteria) {
@@ -350,12 +356,30 @@ const parseJob = ($html) => {
 
   const active = !(html.indexOf('[flagged]') > -1)
 
+  if (attr.type.indexOf('parttime') < -1) {
+    attr.type.push('fulltime');
+  }
+
+  if (attr.type.indexOf('remote') < -1) {
+    attr.type.push('onsite');
+  }
+
+  if (attr.visa.length > 0) {
+    attr.visa = attr.visa[0];
+  }
+
+  if (attr.intern.length > 0) {
+    attr.intern = attr.intern[0];
+  }
+
   return {
     locs: _.union(attr.locs),
     type: _.union(attr.type),
     field: _.union(attr.field),
     stack: _.union(attr.stack),
     where: _.union(attr.where),
+    visa: attr.visa,
+    intern: attr.intern,
     html,
     links,
     active,

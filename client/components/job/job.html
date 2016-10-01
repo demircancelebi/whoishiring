@@ -4,7 +4,7 @@
     <p class="pull-right lead m0" ng-if="data.locs.length > 2" style="font-size: 14px;">{{ ctrl.locs[data.locs[0]] }}, {{ ctrl.locs[data.locs[1]] }}, <span uib-tooltip="{{ fullLocs }}" tooltip-placement="bottom">...</span></p>
     <h4 class="mt0" ng-bind-html="data.company"></h4>
     <h6 class="mb0"><span ng-repeat="f in data.field">{{ ctrl.field[f] }}<span ng-if="!$last">,&nbsp;</span></span></h6>
-    <h6 class="mb0"><span ng-repeat="t in data.type">{{ ctrl.types[t] }}<span ng-if="!$last">&nbsp;</span></span></h6>
+    <h6><span class="mb0" ng-if="data.visa === 'yes'">Visa</span><span class="mb0" ng-if="data.intern === 'yes'"><span ng-if="data.visa === 'yes'">, </span>Intern</span></h6>
     <div style="position: relative;">
       <hr>
       <h6 style="position: absolute; top: -27px; background: #fff; padding: 10px; color: #aaa; left: 35%;">Stack &amp; Links</h6>

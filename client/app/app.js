@@ -225,11 +225,16 @@ angular.module('newHnHiringApp', [
 
     $rootScope.types = {
       fulltime: 'Full time',
-      parttime: 'Part time',
-      visa: 'Visa',
-      intern: 'Intern'
+      parttime: 'Part time'
     };
 
+    $rootScope.visa = {
+      yes: 'Visa'
+    };
+
+    $rootScope.intern = {
+      yes: 'Intern'
+    };
 
 
     $rootScope.$on('$routeChangeStart', function(event, next) {

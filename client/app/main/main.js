@@ -6,6 +6,7 @@ angular.module('newHnHiringApp')
       .when('/', {
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
+        reloadOnSearch: false,
         resolve: {
           data: ($q, $http) => {
             const deferred = $q.defer();

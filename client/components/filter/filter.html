@@ -13,6 +13,15 @@
       <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.types" ng-model="data.filter.type[typeSlug]" ng-value="typeSlug" class="pull-left mr20" ng-change="search()">{{ typeName }}</md-checkbox>
     </md-input-container>
     <md-input-container class="m0 mr15">
+      <h6 class="mt10 mb15">Visa</h6>
+      <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.visa" ng-model="data.filter.visa[typeSlug]" ng-value="typeSlug" class="pull-left mr20" ng-change="search()">{{ typeName }}</md-checkbox>
+    </md-input-container>
+    <md-input-container class="m0 mr15">
+      <h6 class="mt10 mb15">Intern</h6>
+      <md-checkbox ng-repeat="(typeSlug, typeName) in ctrl.intern" ng-model="data.filter.intern[typeSlug]" ng-value="typeSlug" class="pull-left mr20" ng-change="search()">{{ typeName }}</md-checkbox>
+    </md-input-container>
+
+    <md-input-container class="m0 mr15">
     <h6 class="mt10 mb15">Where</h6>
       <md-checkbox ng-repeat="(whereSlug, whereName) in ctrl.wheres" ng-model="data.filter.where[whereSlug]" ng-value="whereSlug" class="pull-left mr20" ng-change="search()">{{ whereName }}</md-checkbox>
     </md-input-container>

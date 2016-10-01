@@ -57,7 +57,9 @@ angular.module('newHnHiringApp')
       locs: $rootScope.locs,
       wheres: $rootScope.wheres,
       field: $rootScope.field,
-      stack: $rootScope.stack
+      stack: $rootScope.stack,
+      visa: $rootScope.visa,
+      intern: $rootScope.intern
     };
 
     if (!$scope.data) {
@@ -106,13 +108,33 @@ angular.module('newHnHiringApp')
     };
 
     $scope.mapParamsToFilter = () => {
-      console.log('setting the UI...');
+      const p = $route.current.params;
+      const filter = {};
+
+      Object.keys(p).forEach((key, index) => {
+        if (key === 'type' || key === 'where') {
+          $scope.data.filter[key] = {};
+          if (p[key].constructor === String) {
+            p[key] = [p[key]];
+          }
+          p[key].forEach((k, i) => {
+            $scope.data.filter[key][k] = true;
+          });
+        } else if (key === 'intern' || key === 'locs' || key === 'field') {
+          $scope.data.filter[key] = p[key];
+        }
+      });
     };
 
     $scope.search = () => {
       const params = $scope.getParamsFromFilters();
       $route.updateParams(params);
     };
+
+    $rootScope.$on('$locationChangeSuccess', (event, next, current) => {
+      const params = $location.$$url.replace('/?', '?');
+      $rootScope.$broadcast('make new search', params);
+    });
 
     $scope.mapParamsToFilter();
   });

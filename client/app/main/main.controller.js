@@ -1,10 +1,18 @@
 'use strict';
 
 angular.module('newHnHiringApp')
-  .controller('MainCtrl', function ($scope, $rootScope, data) {
+  .controller('MainCtrl', function ($scope, $rootScope, $http, data) {
     $scope.data = {
-      jobs: data.items
+      jobs: data.items,
+      found: data.found
     };
+
+    $rootScope.$on('make new search', (e, urlParams) => {
+      $http.get(`/api/jobs${urlParams}`).success((d) => {
+        $scope.data.jobs = d.items;
+        $scope.data.found = d.found;
+      });
+    });
 
     $rootScope.$on('edit job listing', (e, data) => {
       $scope.toEdit = data;

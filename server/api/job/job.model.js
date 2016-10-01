@@ -12,6 +12,8 @@ const Job = new Schema({
   where: [String],
   links: [String],
   locs: [String],
+  visa: String,
+  intern: String,
   by: String,
   active: Boolean,
   onstory: String,

@@ -33,9 +33,8 @@ exports.queryBuilder = function (opts) {
   const count = parseInt(q.count, 10) || defaultCount;
   const page = q.page || 1;
   const skip = count * (page - 1);
-  const query = { $and: [{ attr: { $all: [] } }] };
+  const query = { $and: [] };
   let arr;
-  const coords = {};
 
   if (q.count) { delete q.count; }
   if (q.page) { delete q.page; }
@@ -44,58 +43,8 @@ exports.queryBuilder = function (opts) {
 
   for (const i in q) {
     if (q.hasOwnProperty(i)) {
-      if (model && config.attributes[model].indexOf(i) > -1) {
-        const ai = _.findIndex(query.$and, o => o.hasOwnProperty('attr'));
-        if (_.isArray(q[i])) {
-          const l = q[i].length;
-          arr = [];
-          for (let j = 0; j < l; j++) {
-            const obj = { k: i, v: q[i][j] };
-            arr.push(obj);
-          }
-
-          query.$and[ai].attr.$all.push({ $elemMatch: { $or: arr } });
-        } else {
-          query.$and[ai].attr.$all.push({ $elemMatch: { k: i, v: q[i] } });
-        }
-      } else if (i.includes('min')) {
-        const p = i.split('min')[1].toLowerCase();
-        if (p === 'price') {
-          q[i] = q[i] * 100;
-        }
-        query[p] = { $gte: q[i] };
-      } else if (i.includes('max')) {
-        const p = i.split('max')[1].toLowerCase();
-        if (p === 'price') {
-          q[i] = q[i] * 100;
-        }
-        query[p] = { $lte: q[i] };
-      } else if (i === 'category') {
-        let done = false;
-
-        arr = [q[i]];
-        Category.find({}, (err, cs) => {
-          arr = findChildsAndPopulateArray(cs, q[i], arr);
-          done = true;
-        });
-
-        require('deasync').loopWhile(() => !done);
-        const l = arr.length;
-        const arr2 = [];
-        for (let j = 0; j < l; j++) {
-          const obj = {};
-          obj[i] = arr[j];
-          arr2.push(obj);
-        }
-
-        query.$and.push({ $or: arr2 });
-      } else if (i === 'ids') {
+      if (i === 'ids') {
         query.$and.push({ _id: { $in: q[i] } });
-      } else if (i === 'text') {
-        arr = [];
-        arr.push({ title: { $regex: new RegExp(`.*${RegExp.quote(q[i]).toLowerCase()}.*`, 'i') } });
-        arr.push({ description: { $regex: new RegExp(`.*${RegExp.quote(q[i]).toLowerCase()}.*`, 'i') } });
-        query.$and.push({ $or: arr });
       } else if (_.isArray(q[i])) {
         const l = q[i].length;
         arr = [];
@@ -106,41 +55,12 @@ exports.queryBuilder = function (opts) {
         }
 
         query.$and.push({ $or: arr });
-      } else if (i === 'name' || i === 'title') {
-        query.$and.push({ [i]: { $regex: new RegExp(`^${RegExp.quote(q[i]).toLowerCase()}`, 'i') } });
-      } else if (['north', 'south', 'west', 'east'].indexOf(i) > -1) {
-        coords[i] = q[i];
-      } else if (i === 'city' || i === 'district') {
-        if (i === 'city') { // TODO
-          query.$and.push({ 'address.administrative_areas': { $regex: new RegExp(`^${RegExp.quote(q[i]).toLowerCase()}`, 'i') } });
-        } else {
-          query.$and.push({ 'address.administrative_areas': { $regex: new RegExp(`^${RegExp.quote(q[i]).toLowerCase()}`, 'i') } });
-        }
       } else {
         const obj = {};
         obj[i] = q[i];
         query.$and.push(obj);
       }
     }
-  }
-
-  if (coords.hasOwnProperty('north') && coords.north && coords.hasOwnProperty('south') && coords.south &&
-  coords.hasOwnProperty('west') && coords.west && coords.hasOwnProperty('east') && coords.east) {
-    const ci = _.findIndex(query.$and, o => o.hasOwnProperty('address.administrative_areas'));
-    if (ci > -1) query.$and.splice(ci, 1);
-
-    const di = _.findIndex(query.$and, o => o.hasOwnProperty('address.administrative_areas'));
-    if (di > -1) query.$and.splice(di, 1);
-
-    query.$and.push({ 'address.coords.lat': { $gt: coords.south } });
-    query.$and.push({ 'address.coords.lat': { $lt: coords.north } });
-    query.$and.push({ 'address.coords.lng': { $gt: coords.west } });
-    query.$and.push({ 'address.coords.lng': { $lt: coords.east } });
-  }
-
-  const ai = _.findIndex(query.$and, o => o.hasOwnProperty('attr'));
-  if (query.$and[ai].attr.$all.length === 0) {
-    query.$and.splice(ai, 1);
   }
 
   if (query.$and.length === 0) {
@@ -165,44 +85,11 @@ exports.saveUpdates = function (updates, by) {
     if (entity) {
       _.forEach(updates, (val, key) => {
         if (_.isArray(val)) {
-          if (key === 'ratings') {
-            if (entity.ratings) {
-              if (entity.ratings.averages && entity.ratings.averages.length === 0) {
-                entity.averages = val;
-              } else {
-                entity.ratings.averages = entity.ratings.averages.map((ave, i) => (ave * entity.ratings.counter + val[i]) / (entity.ratings.counter + 1));
-              }
-              entity.ratings.all.push({ by: by._id, ratings: val });
-              entity.ratings.counter++;
-            } else {
-              entity.ratings = {
-                averages: val,
-                counter: 1,
-                all: [{ by: by._id, ratings: val }]
-              };
-            }
-            // entity.markModified('ratings');
-          } else if (key === 'attr') {
-            if (!entity.attr) entity.attr = [];
-            val.forEach(at => {
-              const ai = _.findIndex(entity.attr, att => att.k === at.k);
-              if (ai > -1) {
-                entity.attr[ai].v = at.v;
-              } else {
-                entity.attr.push(at);
-              }
-
-              if (_.isArray(at.v)) {
-                entity.markModified(`attr.${at.k}`);
-              }
-            });
-          } else {
-            entity[key] = updates[key];
-          }
-
-          delete updates[key];
-          entity.markModified(key);
+          entity[key] = updates[key];
         }
+
+        delete updates[key];
+        entity.markModified(key);
       });
 
       const updated = _.merge(entity, updates);
