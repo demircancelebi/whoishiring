@@ -427,8 +427,10 @@ const traverse = (cb) => {
         return j;
       });
 
-      Job.create(jobs);
-      cb();
+      Job.createAsync(jobs)
+        .then(() => {
+          cb();
+        });
     }
   });
 };
