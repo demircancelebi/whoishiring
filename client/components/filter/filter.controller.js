@@ -96,7 +96,7 @@ angular.module('newHnHiringApp')
           p[key].forEach((k, i) => {
             $scope.data.filter[key][k] = true;
           });
-        } else if (key === 'intern' || key === 'locs' || key === 'field') {
+        } else if (key === 'intern' || key === 'locs' || key === 'field' || key === 'onstory' || key === 'stack') {
           $scope.data.filter[key] = p[key];
         }
       });
