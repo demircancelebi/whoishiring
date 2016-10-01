@@ -5,6 +5,10 @@ angular.module('newHnHiringApp')
     $scope.ctrl = {
       dates: [
         {
+          name: 'November 2016',
+          id: 'November2016'
+        },
+        {
           name: 'September 2016',
           id: 'September2016'
         },
@@ -39,18 +43,6 @@ angular.module('newHnHiringApp')
         {
           name: 'January 2016',
           id: 'January2016'
-        },
-        {
-          name: 'December 2015',
-          id: 'December2015'
-        },
-        {
-          name: 'November 2015',
-          id: 'November2015'
-        },
-        {
-          name: 'October 2015',
-          id: 'October2015'
         }
       ],
       types: $rootScope.types,
@@ -61,22 +53,6 @@ angular.module('newHnHiringApp')
       visa: $rootScope.visa,
       intern: $rootScope.intern
     };
-
-    if (!$scope.data) {
-      $scope.data = {
-        filter: {
-          onstory: $scope.ctrl.dates[0].id
-        }
-      };
-    } else {
-      if (!$scope.data.filter) {
-        $scope.data.filter = {
-          onstory: $scope.ctrl.dates[0].id
-        };
-      } else {
-        $scope.data.filter.onstory = $scope.ctrl.dates[0].id;
-      }
-    }
 
     $scope.getParamsFromFilters = () => {
       let params = {};

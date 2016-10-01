@@ -389,7 +389,7 @@ const parseJob = ($html) => {
   }
 };
 
-const fetch = (line, cb) => {
+const fetch = (line) => {
   const lineArr = line.split(' - ');
   const date = lineArr[0];
   const id = lineArr[1];
@@ -402,11 +402,11 @@ const fetch = (line, cb) => {
     });
 };
 
-const traverse = () => {
+const traverse = (cb) => {
   const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
   console.log(`File count: ${files.length}`);
   files.forEach((file, i) => {
-    if (i === 0) {
+    if (file === 'September2016.html') {
       const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
       const $ = cheerio.load(html);
 
@@ -428,13 +428,15 @@ const traverse = () => {
       });
 
       Job.create(jobs);
+      cb();
     }
   });
 };
 
 module.exports = () => {
-  // for (let i = 0; i < ids.length; i += 1) {
-  //   fetch(ids[i]);
-  // };
-  traverse();
+  traverse(() => {
+    for (let i = 0; i < ids.length; i += 1) {
+     fetch(ids[i]);
+    };
+  });
 };
