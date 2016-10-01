@@ -80,16 +80,16 @@ exports.respondWithResult = function (res, statusCode) {
   };
 };
 
-exports.saveUpdates = function (updates, by) {
+exports.saveUpdates = function (updates) {
   return entity => {
     if (entity) {
       _.forEach(updates, (val, key) => {
         if (_.isArray(val)) {
           entity[key] = updates[key];
-        }
 
-        delete updates[key];
-        entity.markModified(key);
+          delete updates[key];
+          entity.markModified(key);
+        }
       });
 
       const updated = _.merge(entity, updates);

@@ -60,9 +60,9 @@ export function create(req, res) {
     .catch(ut.handleError(req, res));
 }
 
-// Updates an existing Item in the DB
+// Updates an existing Job in the DB
 export function update(req, res) {
-  Item.findById(req.params.id)
+  Job.findById(req.params.id)
     .execAsync()
     .then(ut.handleEntityNotFound(res))
     .then(ut.saveUpdates(req.body))

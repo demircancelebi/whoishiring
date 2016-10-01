@@ -36,7 +36,8 @@ angular.module('newHnHiringApp')
     };
 
     $scope.onChange = (data) => {
-      $http.put(`/jobs/${data._id}`, { active: $scope.data.active });
+      console.log(data);
+      $http.put(`/api/jobs/${data._id}`, { active: $scope.data.active });
     };
 
     $scope.showMore = () => {

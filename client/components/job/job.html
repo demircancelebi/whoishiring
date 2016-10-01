@@ -16,7 +16,7 @@
     <div class="row" ng-if="isAdmin">
       <md-card-actions layout="row" layout-align="start center" style="background: #fafafa; margin: 0 0 -15px;">
         <md-button style="margin-right: 10px;" ng-click="showEditModal(data)">Edit</md-button>
-        <md-switch ng-change="onChange()" class="mt5 mb0" ng-model="data.active" aria-label="Active">Active: {{ data.active }}</md-switch>
+        <md-switch ng-change="onChange(data)" class="mt5 mb0" ng-model="data.active" aria-label="Active">Active: {{ data.active }}</md-switch>
       </md-card-actions>
     </div>
   </md-card-content>
