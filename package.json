@@ -106,8 +106,8 @@
     "supertest": "^1.1.0"
   },
   "engines": {
-    "node": "^4.4.0",
-    "npm": "^2.14.20"
+    "node": "6.6.0",
+    "npm": "3.10.3"
   },
   "scripts": {
     "test": "grunt test",
