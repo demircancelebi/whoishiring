@@ -1,5 +1,9 @@
 # new-hn-hiring
 
+This program fetches the who is hiring for the month periodically, then tries to understand the company, location, role, etc in each post. Then serves that information with a UI with filters.
+
+## Description
+
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.7.5.
 
 ## Getting Started

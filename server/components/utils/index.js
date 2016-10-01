@@ -107,7 +107,7 @@ exports.saveUpdates = function (updates) {
       }
 
       return updated.saveAsync()
-      .spread(data => data);
+      .then(data => data);
     }
   };
 };

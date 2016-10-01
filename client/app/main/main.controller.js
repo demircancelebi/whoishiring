@@ -16,7 +16,7 @@ angular.module('newHnHiringApp')
 
     $rootScope.$on('edit job listing', (e, data) => {
       $scope.toEdit = data;
-      $('#edit-listing-modal').modal();
+      $('#edit-job-modal').modal();
     });
 
     $rootScope.$on('show more', (e, data, index) => {
@@ -33,4 +33,8 @@ angular.module('newHnHiringApp')
       $scope.lastIndex = index;
       $scope.addAfter = (Math.floor(index/3)+1)*3;
     });
+
+    $scope.updateJob = () => {
+      $http.put(`/api/jobs/${$scope.toEdit._id}`, { company: $scope.toEdit.company });
+    };
   });

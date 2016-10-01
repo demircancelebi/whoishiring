@@ -21,11 +21,11 @@
   </div>
 </div>
 
-<div class="modal fade" id="edit-listing-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="edit-job-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" style="max-width: 700px;">
     <div class="modal-content">
       <div class="modal-body">
-        <form class="form" name="editListingForm" ng-submit="cancelOrder(editListingForm)" novalidate>
+        <form class="form" name="jobForm" ng-submit="updateJob(jobForm)" novalidate>
           <md-input-container class="mb0 md-block" flex-gt-xs>
             <label>Company</label>
             <input ng-model="toEdit.company" type="text">
