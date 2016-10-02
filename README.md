@@ -1,4 +1,4 @@
-# new-hn-hiring
+# Who is hiring++
 
 This program fetches the who is hiring for the month periodically, then tries to understand the company, location, role, etc in each post. Then serves that information with a UI with filters.
 
