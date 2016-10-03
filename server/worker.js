@@ -418,7 +418,7 @@ const parseJob = ($html) => {
   }
 };
 
-const fetch = (lines) => {
+const fetch = (lines, cb) => {
   const urls = lines.map(line => {
     const l = line.split(' - ');
     const date = l[0];
@@ -434,6 +434,7 @@ const fetch = (lines) => {
     .then((htmls) => {
       htmls.forEach((h, i) => {
         fs.writeFileSync(path.resolve(__dirname, 'stories', `${urls[i].d}.html`), h);
+        cb();
       })
     })
     .catch(function (err) {
@@ -442,7 +443,7 @@ const fetch = (lines) => {
     });
 };
 
-const traverse = (cb) => {
+const traverse = () => {
   const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
   console.log(`File count: ${files.length}`);
   files.forEach((file, i) => {
@@ -467,12 +468,9 @@ const traverse = (cb) => {
         return j;
       });
 
-      Job.create(jobs, () => {
-        cb();
-      });
+      Job.create(jobs);
     }
   });
-  cb();
 };
 
 module.exports = () => {
