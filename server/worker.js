@@ -428,7 +428,7 @@ const fetch = (line) => {
     .then(function (html) {
       fs.writeFileSync(path.resolve(__dirname, 'stories', `${d}.html`), html);
     })
-    .catch(function (err)) {
+    .catch(function (err) {
       console.log('Crawl error:');
       console.log(err);
     });
