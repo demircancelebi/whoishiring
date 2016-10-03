@@ -5,8 +5,8 @@ angular.module('newHnHiringApp')
     $scope.ctrl = {
       dates: [
         {
-          name: 'November 2016',
-          id: 'November2016'
+          name: 'October 2016',
+          id: 'October2016'
         },
         {
           name: 'September 2016',
