@@ -431,7 +431,7 @@ const fetch = (line) => {
     .catch(function (err)) {
       console.log('Crawl error:');
       console.log(err);
-    }
+    });
 };
 
 const traverse = (cb) => {
