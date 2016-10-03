@@ -27,14 +27,15 @@
       </div>
     </div>
     <div class="clearfix"></div>
-    <uib-pagination total-items="data.found"
-          items-per-page="data.count"
-          ng-model="data.filter.page"
-          ng-change="changePage({ page: data.filter.page })"
-          max-size="4"
-          boundary-links="true"
-          rotate="false"></uib-pagination>
-
+    <div class="col-sm-12">
+      <uib-pagination total-items="data.found"
+            items-per-page="data.count"
+            ng-model="data.filter.page"
+            ng-change="changePage({ page: data.filter.page })"
+            max-size="4"
+            boundary-links="true"
+            rotate="false"></uib-pagination>
+    </div>
   </div>
 </div>
 
