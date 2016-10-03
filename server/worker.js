@@ -13,6 +13,7 @@ for (var i = ids.length - 1; i >= 0; i--) {
     ids.splice(i, 1);
   }
 }
+console.log(ids);
 
 const mapWord = (ws, delimiter) => {
   let w = '';
@@ -417,16 +418,23 @@ const parseJob = ($html) => {
   }
 };
 
-const fetch = (line) => {
-  const lineArr = line.split(' - ');
-  const date = lineArr[0];
-  const id = lineArr[1];
-  const url = `https://news.ycombinator.com/item?id=${id}`;
-  const d = date.replace(' ', '');
+const fetch = (lines) => {
+  const urls = lines.map(line => {
+    const l = line.split(' - ');
+    const date = l[0];
+    const id = l[1];
 
-  rp(url)
-    .then(function (html) {
-      fs.writeFileSync(path.resolve(__dirname, 'stories', `${d}.html`), html);
+    return {
+      url: `https://news.ycombinator.com/item?id=${id}`,
+      d: date.replace(' ', '')
+    };
+  });
+
+  Promise.all(urls.map(u => rp(u.url)))
+    .then((htmls) => {
+      htmls.forEach((h, i) => {
+        fs.writeFileSync(path.resolve(__dirname, 'stories', `${urls[i].d}.html`), h);
+      })
     })
     .catch(function (err) {
       console.log('Crawl error:');
@@ -459,18 +467,14 @@ const traverse = (cb) => {
         return j;
       });
 
-      Job.createAsync(jobs)
-        .then(() => {
-          cb();
-        });
+      Job.create(jobs, () => {
+        cb();
+      });
     }
   });
+  cb();
 };
 
 module.exports = () => {
-  traverse(() => {
-    for (let i = 0; i < ids.length; i += 1) {
-     fetch(ids[i]);
-    };
-  });
+  fetch(ids, traverse);
 };
