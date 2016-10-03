@@ -427,7 +427,11 @@ const fetch = (line) => {
   rp(url)
     .then(function (html) {
       fs.writeFileSync(path.resolve(__dirname, 'stories', `${d}.html`), html);
-    });
+    })
+    .catch(function (err)) {
+      console.log('Crawl error:');
+      console.log(err);
+    }
 };
 
 const traverse = (cb) => {
