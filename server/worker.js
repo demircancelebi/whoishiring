@@ -447,7 +447,7 @@ const traverse = () => {
   const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
   console.log(`File count: ${files.length}`);
   files.forEach((file, i) => {
-    if (file === 'October2016.html') {
+    if (file === 'November2016.html') {
       const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
       const $ = cheerio.load(html);
 
