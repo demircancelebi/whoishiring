@@ -13,7 +13,6 @@ for (var i = ids.length - 1; i >= 0; i--) {
     ids.splice(i, 1);
   }
 }
-console.log(ids);
 
 const mapWord = (ws, delimiter) => {
   let w = '';
@@ -256,17 +255,17 @@ const criteria = {
     fullstack: [mapWords(['full-stack', 'full-stack-develop'])],
     ios: [[...mapWords(['ios-engineer', 'ios-develop']), 'iOS engineer']],
     android: [mapWords(['android-engineer', 'android-develop'])],
-    data: [mapWords(['machine-learning', 'deep-learning', 'data-architect', 'data-scient'])],
+    data: [mapWords(['machine-learning', 'deep-learning', 'data-architect', 'data-scien'])],
     devops: [mapWords(['dev-ops'])],
     pm: [mapWords(['product-manager', 'project-manager', 'scrum-master'])],
     sre: [mapWords(['reliability', 'sre']), ['ssre']],
     security: [mapWords(['security-engineer'])]
   },
   stack: {
-    javascript: [[...mapWords(['java-script', 'node-js', 'js-engineer', 'angular', 'react']), ...mw(['node', 'js'], '.', ['.'])]],
+    javascript: [[...mapWords(['java-script', 'node-js', 'js-engineer', 'angular', 'react', 'vue']), ...mw(['node', 'js'], '.', ['.'])]],
     nodejs: [[...mapWords(['node-js']), ...mw(['node', 'js'], '.', ['.'])]],
     java: [mapWords(['java']), mapWords(['java-script'])],
-    python: [mapWords(['python', 'django', 'flask'])],
+    python: [mapWords(['python', 'django', 'flask', 'numpy', 'scikit'])],
     c: [['C/C++', 'C, C++', 'C and C++']],
     cpp: [['c++', 'C++']],
     csharp: [['c#', 'C#']],
@@ -287,14 +286,20 @@ const criteria = {
     mysql: [[...mapWords(['my-sql']), 'MySQL', 'mySQL']],
     elasticsearch: [mapWords(['elastic-search'])],
     linux: [mapWords(['linux'])],
-    php: [mapWords(['php', 'symfony'])],
+    php: [mapWords(['php', 'symfony', 'laravel'])],
     unity: [mapWords(['unity']), mapWords(['munity', 'tunity'])],
     rabbit: [mapWords(['rabbit', 'rabbit-mq'])],
     redis: [mapWords(['redis'])],
     hadoop: [mapWords(['hadoop'])],
     backbone: [mapWords(['backbone']), mapWords(['backbone-of', 'backbone-for'])],
     ember: [mapWords(['ember'])],
-    webrtc: [[...mapWords(['web-rtc']), 'WebRTC']]
+    vue: [mapWords(['vue'])],
+    bitcoin: [mapWords(['bitcoin'])],
+    blockchain: [mapWords(['blockchain'])],
+    ethereum: [mapWords(['ethereum'])],
+    solidity: [mapWords(['solidity'])],
+    smartcontract: [mapWords(['smart-contract'])],
+    webrtc: [[...mapWords(['web-rtc']), 'WebRTC']],
   }
 };
 
@@ -302,7 +307,16 @@ const parseJob = ($html) => {
   const $ = cheerio.load($html.html());
 
   const html = $html.find('.comment').html();
-  const links = getUrls(html);
+  let links = [];
+
+  try {
+    links = getUrls(html);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+
+  links = [...links];
 
   // remove duplicate and bad formatted links
   const linksLen = links.length;
@@ -447,12 +461,12 @@ const traverse = () => {
   const files = fs.readdirSync(path.resolve(__dirname, 'stories'));
   console.log(`File count: ${files.length}`);
   files.forEach((file, i) => {
-    if (file === 'November2016.html') {
+    if (file === 'September2016.html') {
       const html = fs.readFileSync(path.resolve(__dirname, 'stories', file), 'utf-8');
       const $ = cheerio.load(html);
 
       const comments = $('body').find('.athing.comtr');
-      const jobs = [];
+      let jobs = [];
       let text = '';
       comments.each((i, c) => {
         const $c = $(c);
@@ -461,6 +475,7 @@ const traverse = () => {
           jobs.push(parseJob($c));
         }
       });
+      jobs = _.without(jobs, null);
 
       const d = file.split('.')[0];
       const jobsWithDate = jobs.map((j) => {
@@ -474,5 +489,6 @@ const traverse = () => {
 };
 
 module.exports = () => {
-  fetch(ids, traverse);
+  traverse();
+  // fetch(ids, traverse);
 };

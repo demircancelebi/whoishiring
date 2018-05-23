@@ -230,7 +230,13 @@ angular.module('newHnHiringApp', [
       hadoop: 'Hadoop',
       backbone: 'Backbone.js',
       ember: 'Ember.js',
-      webrtc: 'Webrtc'
+      vue: 'Vue.js',
+      bitcoin: 'Bitcoin',
+      blockchain: 'Blockchain',
+      ethereum: 'Ethereum',
+      solidity: 'Solidity',
+      smartcontract: 'Smart Contracts',
+      webrtc: 'Webrtc',
     };
 
     $rootScope.field = {
