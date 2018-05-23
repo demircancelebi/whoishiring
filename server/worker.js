@@ -475,6 +475,8 @@ const traverse = () => {
           jobs.push(parseJob($c));
         }
       });
+
+      // remove null jobs
       jobs = _.without(jobs, null);
 
       const d = file.split('.')[0];
