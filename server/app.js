@@ -26,23 +26,19 @@ cr.run();
 
 // Setup server
 var app = express();
-var server = http.createServer(app);
-var socketio = require('socket.io')(server, {
-  serveClient: config.env !== 'production',
-  path: '/socket.io-client'
-});
-require('./config/socketio').default(socketio);
+// var server = http.createServer(app);
+// var socketio = require('socket.io')(server, {
+//   serveClient: config.env !== 'production',
+//   path: '/socket.io-client'
+// });
+// require('./config/socketio').default(socketio);
 require('./config/express').default(app);
 require('./routes').default(app);
 
-// Start server
-// function startServer() {
-// }
-app.angularFullstack = server.listen(process.env.PORT, config.ip, function() {
-  console.log('Express server listening on %d, in %s mode', process.env.PORT, app.get('env'));
-});
+var port = process.env.PORT || 5000;
+app.listen(port);
 
-// setImmediate(startServer);
+console.log(`server started: ${port}`);
 
 // Expose app
 exports = module.exports = app;
