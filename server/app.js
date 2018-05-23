@@ -36,13 +36,13 @@ require('./config/express').default(app);
 require('./routes').default(app);
 
 // Start server
-function startServer() {
-  app.angularFullstack = server.listen(process.env.PORT, config.ip, function() {
-    console.log('Express server listening on %d, in %s mode', process.env.PORT, app.get('env'));
-  });
-}
+// function startServer() {
+// }
+app.angularFullstack = server.listen(process.env.PORT, config.ip, function() {
+  console.log('Express server listening on %d, in %s mode', process.env.PORT, app.get('env'));
+});
 
-setImmediate(startServer);
+// setImmediate(startServer);
 
 // Expose app
 exports = module.exports = app;
